@@ -2,16 +2,17 @@ package com.lhm.myapp.project;
 
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/project")
@@ -19,6 +20,27 @@ public class ProjectController {
 
     @Autowired
     ProjectRepository repo;
+
+    @GetMapping(value = "/{projectId}")
+    public ResponseEntity<Map<String, Object>> getProject(@PathVariable Long projectId) {
+        System.out.println("입력값 확인 : " + projectId);
+
+        Optional<Project> project = repo.findById(projectId);
+
+        Map<String, Object> res = new HashMap<>();
+
+        if (project.isPresent()) {
+            res.put("data", project.get());
+            res.put("message", "FOUND");
+
+            return ResponseEntity.status(HttpStatus.OK).body(res);
+        } else {
+            res.put("data", null);
+            res.put("message", "NOT_FOUND");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> addProject(@RequestBody  Project project) {
@@ -55,6 +77,38 @@ public class ProjectController {
         }
 
         return ResponseEntity.ok().build();
+
+    }
+
+    // GET /project/paging?page=0&size=10
+    @GetMapping(value = "/paging")
+    public Page<Project> getProjectPaging(@RequestParam int page, @RequestParam int size) {
+
+        System.out.println("page :"+page);
+        System.out.println("size :"+size);
+
+        Sort sort = Sort.by("createdTime").descending();
+
+        PageRequest pageRequest = PageRequest.of(page,size,sort);
+
+        return repo.findAll(pageRequest);
+
+    }
+
+    // GET /project/paging/searchByStatus?page=0&size=10
+    @GetMapping(value = "/paging/searchByStatus")
+    public Page<Project> getProjectPagingSearchByStatus(@RequestParam int page, @RequestParam int size,
+                                                        @RequestParam String status) {
+
+        System.out.println("page :"+page);
+        System.out.println("size :"+size);
+        System.out.println("status :"+status);
+
+        Sort sort = Sort.by("createdTime").descending();
+
+        PageRequest pageRequest = PageRequest.of(page,size,sort);
+
+        return repo.findByStatus(status, pageRequest);
 
     }
 }
