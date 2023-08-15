@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -14,18 +17,20 @@ import lombok.NoArgsConstructor;
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long projectId; // primary key
+    private long projectid; // primary key
 
     @Column(nullable = false)
     private String title;   // 프로젝트 제목
 
     private String description; // 프로젝트 소개
 
-    @Column(length = 8)
-    private String startDate;   // 시작일(yyyyMMdd)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDate; // 시작일
 
-    @Column(length = 8)
-    private String endDate;     // 종료일(yyyyMMdd)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;     // 종료일
 
     // 컬럼크기 1024byte * 1024 = 1mb * 20 = 20mb
     @Column(length = 1024 * 1024 * 20)
