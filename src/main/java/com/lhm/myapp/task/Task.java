@@ -39,6 +39,6 @@ public class Task {
     private long createdTime; // 생성일
 
     // Project 엔티티 키
-    private long projectNo;
+    private long projectId;
 
 }
