@@ -13,15 +13,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Team {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long teamNo; // primary key
 
-    private long userNo;        // 회원번호
-    private String departCode;  // 부서코드
+    @Id
+    private long ownerId;   // 사용자 정보 key
+
+    private long projectId; // 프로젝트 정보 key
 
     // Project 엔티티와 1:1 관계 매핑
     // project_no가 FK로 생성
-    @OneToOne
-    private Project project;
+//    @OneToOne
+//    private Project project;
 }
