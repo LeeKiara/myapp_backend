@@ -68,25 +68,24 @@ public class ProjectController {
         // 서버에서 추가 정보 등록
         // TODO list : 로그인한 USER 정보로 교체
         reqProject.setStatus("1"); // 진행중
-        reqProject.setCreatorName("ADMIN");
+        reqProject.setCreatorUser("ADMIN");
         reqProject.setCreatedTime(new Date().getTime());
 //        reqProject.setUserNo(1);
 
+        // 1. Project DB insert
         Project savedProject = repo.save(reqProject);
 
         // Project 생성 시, Project Team도 같이 생성.
         // Project Team에는 여러명의 사용자가 등록될 수 있음.
         // TODO list : 로그인한 USER 정보로 교체
         Team createTeam = Team.builder()
-                .userNo(1)
-                .departCode("101")
-                .project(savedProject)
+                .ownerId(1)
+                .projectId(savedProject.getNo())
                 .build();
 
+        // Team DB Insert
         Team savedTeam = teamRepo.save(createTeam);
-        long teamNo = savedTeam.getTeamNo();
 
-        savedProject.setTeamNo(teamNo);
         repo.save(savedProject);
 
         System.out.println("savedProject 확인 : "+savedProject);
@@ -176,7 +175,7 @@ public class ProjectController {
             toModifyProject.setImage(project.getImage());
         }
         toModifyProject.setStatus(project.getStatus());
-        toModifyProject.setCreatorName("ADMIN");
+        toModifyProject.setCreatorUser("ADMIN");
         toModifyProject.setCreatedTime(new Date().getTime());
 //        toModifyProject.setUserNo(1);
 
@@ -213,7 +212,7 @@ public class ProjectController {
         }
 
         // 외부 입력 파라메터 검증 (프로젝트 id가 동일한지 확인)
-        if (findedProject.get().getProjectNo() != projectno) {
+        if (findedProject.get().getNo() != projectno) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -227,9 +226,9 @@ public class ProjectController {
         // TODO : 프로젝트의 Task가 존재할 경우 삭제할 수 없도록 수정 또는 해당 TASK 모두 삭제
         // - Project와 Task 의 관계매핑 고려 : OneToMany => (Task에서 FK 생성여부)
 
-        // Team 데이터 삭제
-        // 단, foreign key 제약으로 Team 정보 먼저 삭제함
-        teamRepo.deleteById(findedProject.get().getTeamNo());
+        // Team 데이터 삭제 => 해당 프로젝트의 팀원 정보 삭제
+
+//        teamRepo.deleteById(findedProject.get().getTeamNo());
 
         // Project 데이터 삭제
         repo.deleteById(projectno);
