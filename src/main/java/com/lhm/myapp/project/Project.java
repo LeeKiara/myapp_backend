@@ -1,23 +1,23 @@
 package com.lhm.myapp.project;
 
+import com.lhm.myapp.auth.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
+@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
+@Data
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long no; // primary key
+    private long pid; // primary key
 
     @Column(nullable = false)
     private String title;   // 프로젝트 제목
@@ -42,7 +42,12 @@ public class Project {
 
     private long createdTime; // 생성일
 
-    // Team 엔티티 키
-//    private long teamNo;
+    @OneToMany(cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<Member> teamMembers = new HashSet<Member>();
+
+    public void addMember(Member member) {
+        this.teamMembers.add(member);
+    }
 
 }

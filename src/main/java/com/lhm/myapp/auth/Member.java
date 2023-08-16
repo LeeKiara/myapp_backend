@@ -11,21 +11,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long no;    // 회원번호
+    private long mid;    // 회원번호
 
-    @Column(unique = true)
-    private String userId;      // ID
+    @Column(unique = true, nullable = false)
+    private String username;      // ID
 
+    @Column(nullable = false)
     private String secret;      // 비밀번호
 
     private String name;        // 성명
 
+    @Column(nullable = false)
     private String email;       // 이메일
-
-    private String departCode;  // 부서명
-
 
 }
