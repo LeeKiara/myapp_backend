@@ -131,7 +131,7 @@ public class ProjectController {
         Optional<Project> findedProject = repo.findById(projectid);
 
         System.out.println("저장된 데이터 조회");
-        System.out.println(findedProject);
+//        System.out.println(findedProject);
 
         Map<String, Object> res = new HashMap<>();
 
@@ -148,21 +148,62 @@ public class ProjectController {
         // TODO
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
 
-        // TODO list : 로그인 정보로 변경
+        // TODO list : creatorName, userid 는 로그인 정보로 변경
         toModifyProject.setTitle(project.getTitle());
         toModifyProject.setDescription(project.getDescription());
         toModifyProject.setStartDate(project.getStartDate());
         toModifyProject.setEndDate(project.getEndDate());
-        toModifyProject.setImage(project.getImage());
+        if(project.getImage() != null) {
+            toModifyProject.setImage(project.getImage());
+        }
         toModifyProject.setStatus(project.getStatus());
         toModifyProject.setCreatorName("ADMIN");
         toModifyProject.setCreatedTime(new Date().getTime());
         toModifyProject.setUser_id(1);
 
         // update
-        repo.save(toModifyProject);
+        Project savedProject = repo.save(toModifyProject);
+
+        // 변경된 값을 리턴함
+        res.put("data", savedProject);
+        res.put("message", "SAVE_DONE");
+
+        return ResponseEntity.ok().body(res);
+
+    }
+
+   /*
+     프로젝트 정보 삭제(DB : delete)
+   */
+    @DeleteMapping(value = "/{projectid}")
+    public ResponseEntity<Map<String, Object>> removeProject(@PathVariable Long projectid) {
+
+        System.out.println("1.입력값 확인 : "+projectid);
+
+        // 저장된 데이터 조회
+        Optional<Project> findedProject = repo.findById(projectid);
+
+        System.out.println("저장된 데이터 조회");
+        System.out.println(findedProject);
+
+        Map<String, Object> res = new HashMap<>();
+
+        // 저장된 데이터가 없을 경우
+        if (!findedProject.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // 외부 입력 파라메터 검증 (프로젝트 id가 동일한지 확인)
+        if (findedProject.get().getProjectid() != projectid) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        // TODO : 프로젝트의 Task가 존재할 경우 삭제할 수 없도록 수정 또는 해당 TASK 모두 삭제
+        // - Project와 Task 의 관계매핑 고려 : OneToMany => (Task에서 FK 생성여부)
+        repo.deleteById(projectid);
 
         return ResponseEntity.ok().build();
 
     }
+
 }
