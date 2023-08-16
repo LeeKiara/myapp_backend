@@ -17,7 +17,7 @@ import java.util.Date;
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long projectid; // primary key
+    private long projectNo; // primary key
 
     @Column(nullable = false)
     private String title;   // 프로젝트 제목
@@ -42,7 +42,7 @@ public class Project {
 
     private long createdTime; // 생성일
 
-    // User 엔티티 키
-    private long user_id;
+    // Team 엔티티 키
+    private long teamNo;
 
 }

@@ -1,5 +1,7 @@
 package com.lhm.myapp.project;
 
+import com.lhm.myapp.team.Team;
+import com.lhm.myapp.team.TeamRepository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,13 +22,15 @@ public class ProjectController {
 
     @Autowired
     ProjectRepository repo;
+    @Autowired
+    TeamRepository teamRepo;
 
     // 프로젝트id로 프로젝트 정보 가져오기
-    @GetMapping(value = "/{projectid}")
-    public ResponseEntity<Map<String, Object>> getProject(@PathVariable Long projectid) {
-        System.out.println("입력값 확인 : " + projectid);
+    @GetMapping(value = "/{projectno}")
+    public ResponseEntity<Map<String, Object>> getProject(@PathVariable Long projectno) {
+        System.out.println("입력값 확인 : " + projectno);
 
-        Optional<Project> project = repo.findById(projectid);
+        Optional<Project> project = repo.findById(projectno);
 
         Map<String, Object> res = new HashMap<>();
 
@@ -47,9 +51,9 @@ public class ProjectController {
        프로젝트 정보 등록(DB : insert)
      */
     @PostMapping
-    public ResponseEntity<Map<String, Object>> addProject(@RequestBody  Project project) {
+    public ResponseEntity<Map<String, Object>> addProject(@RequestBody Project reqProject) {
 
-        System.out.println("입력값 확인 : "+project);
+        System.out.println("입력값 확인 : "+reqProject);
 
         // TODO list
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
@@ -62,13 +66,28 @@ public class ProjectController {
 //        project.setEndDate(endDate);
 
         // 서버에서 추가 정보 등록
-        // TODO list : User의 id, 성명으로 교체
-        project.setStatus("1"); // 진행중
-        project.setCreatorName("ADMIN");
-        project.setCreatedTime(new Date().getTime());
-        project.setUser_id(1);
+        // TODO list : 로그인한 USER 정보로 교체
+        reqProject.setStatus("1"); // 진행중
+        reqProject.setCreatorName("ADMIN");
+        reqProject.setCreatedTime(new Date().getTime());
+//        reqProject.setUserNo(1);
 
-        Project savedProject = repo.save(project);
+        Project savedProject = repo.save(reqProject);
+
+        // Project 생성 시, Project Team도 같이 생성.
+        // Project Team에는 여러명의 사용자가 등록될 수 있음.
+        // TODO list : 로그인한 USER 정보로 교체
+        Team createTeam = Team.builder()
+                .userNo(1)
+                .departCode("101")
+                .project(savedProject)
+                .build();
+
+        Team savedTeam = teamRepo.save(createTeam);
+        long teamNo = savedTeam.getTeamNo();
+
+        savedProject.setTeamNo(teamNo);
+        repo.save(savedProject);
 
         System.out.println("savedProject 확인 : "+savedProject);
 
@@ -121,14 +140,14 @@ public class ProjectController {
     /*
        프로젝트 정보 수정(DB : update)
      */
-    @PutMapping(value = "/{projectid}")
-    public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long projectid, @RequestBody  Project project) {
+    @PutMapping(value = "/{projectno}")
+    public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long projectno, @RequestBody  Project project) {
 
-        System.out.println("1.입력값 확인 : "+projectid);
+        System.out.println("1.입력값 확인 : "+projectno);
         System.out.println("2.입력값 확인 : "+project);
 
         // 저장된 데이터 조회
-        Optional<Project> findedProject = repo.findById(projectid);
+        Optional<Project> findedProject = repo.findById(projectno);
 
         System.out.println("저장된 데이터 조회");
 //        System.out.println(findedProject);
@@ -159,7 +178,7 @@ public class ProjectController {
         toModifyProject.setStatus(project.getStatus());
         toModifyProject.setCreatorName("ADMIN");
         toModifyProject.setCreatedTime(new Date().getTime());
-        toModifyProject.setUser_id(1);
+//        toModifyProject.setUserNo(1);
 
         // update
         Project savedProject = repo.save(toModifyProject);
@@ -175,13 +194,13 @@ public class ProjectController {
    /*
      프로젝트 정보 삭제(DB : delete)
    */
-    @DeleteMapping(value = "/{projectid}")
-    public ResponseEntity<Map<String, Object>> removeProject(@PathVariable Long projectid) {
+    @DeleteMapping(value = "/{projectno}")
+    public ResponseEntity<Map<String, Object>> removeProject(@PathVariable Long projectno) {
 
-        System.out.println("1.입력값 확인 : "+projectid);
+        System.out.println("1.입력값 확인 : "+projectno);
 
-        // 저장된 데이터 조회
-        Optional<Project> findedProject = repo.findById(projectid);
+        // project 데이터 조회
+        Optional<Project> findedProject = repo.findById(projectno);
 
         System.out.println("저장된 데이터 조회");
         System.out.println(findedProject);
@@ -194,13 +213,26 @@ public class ProjectController {
         }
 
         // 외부 입력 파라메터 검증 (프로젝트 id가 동일한지 확인)
-        if (findedProject.get().getProjectid() != projectid) {
+        if (findedProject.get().getProjectNo() != projectno) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        // Team 데이터 조회
+        Optional<Team> findedTeam = teamRepo.findById(projectno);
+        // 저장된 데이터가 없을 경우
+        if (!findedTeam.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         // TODO : 프로젝트의 Task가 존재할 경우 삭제할 수 없도록 수정 또는 해당 TASK 모두 삭제
         // - Project와 Task 의 관계매핑 고려 : OneToMany => (Task에서 FK 생성여부)
-        repo.deleteById(projectid);
+
+        // Team 데이터 삭제
+        // 단, foreign key 제약으로 Team 정보 먼저 삭제함
+        teamRepo.deleteById(findedProject.get().getTeamNo());
+
+        // Project 데이터 삭제
+        repo.deleteById(projectno);
 
         return ResponseEntity.ok().build();
 

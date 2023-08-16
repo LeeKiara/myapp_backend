@@ -1,9 +1,7 @@
 package com.lhm.myapp.team;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.lhm.myapp.project.Project;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +15,13 @@ import lombok.NoArgsConstructor;
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long teamId; // primary key
+    private long teamNo; // primary key
 
-    private long project_id;     // 프로젝트 id
-    private long user_id;        // User id
+    private long userNo;        // 회원번호
     private String departCode;  // 부서코드
 
+    // Project 엔티티와 1:1 관계 매핑
+    // project_no가 FK로 생성
+    @OneToOne
+    private Project project;
 }
