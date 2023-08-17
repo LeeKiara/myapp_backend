@@ -38,16 +38,17 @@ public class Project {
 
     private String status;      // 상태 (1: 진행중, 2: 완료, 3: 지연)
 
-    private String creatorUser;   // Project Manager
+//    private String creatorUser;   // Project Manager
+    private long pm_mid;   // Project Manager memberId
 
     private long createdTime; // 생성일
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Builder.Default
-    private Set<Member> teamMembers = new HashSet<Member>();
-
-    public void addMember(Member member) {
-        this.teamMembers.add(member);
-    }
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @Builder.Default
+//    private Set<Member> teamMembers = new HashSet<Member>();
+//
+//    public void addMember(Member member) {
+//        this.teamMembers.add(member);
+//    }
 
 }

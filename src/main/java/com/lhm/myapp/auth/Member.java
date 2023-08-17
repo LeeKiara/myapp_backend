@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long mid;    // 회원번호
+    private long mid;    // id
 
     @Column(unique = true, nullable = false)
-    private String username;      // ID
+    private String username;      // Member ID
 
     @Column(nullable = false)
-    private String secret;      // 비밀번호
+    private String secret;      // 암호화된 비밀번호
 
     private String name;        // 성명
 

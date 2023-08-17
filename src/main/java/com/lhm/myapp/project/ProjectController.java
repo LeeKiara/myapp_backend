@@ -55,9 +55,10 @@ public class ProjectController {
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
 
         // 추가 정보 등록
-        // TODO list : 로그인한 USER 정보로 교체
+        // TODO list : pm_mid는 로그인 정보로 변경
+        Long projectMemberId = 1L;
         reqProject.setStatus("1"); // 진행중
-        reqProject.setCreatorUser("ADMIN");
+        reqProject.setPm_mid(projectMemberId);
         reqProject.setCreatedTime(new Date().getTime());
 
         // 2. Project DB insert
@@ -143,7 +144,9 @@ public class ProjectController {
         // TODO
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
 
-        // TODO list : creatorName, userid 는 로그인 정보로 변경
+        // TODO list : pm_mid는 로그인 정보로 변경
+        Long projectMemberId = 1L;
+
         toModifyProject.setTitle(project.getTitle());
         toModifyProject.setDescription(project.getDescription());
         toModifyProject.setStartDate(project.getStartDate());
@@ -152,7 +155,7 @@ public class ProjectController {
             toModifyProject.setImage(project.getImage());
         }
         toModifyProject.setStatus(project.getStatus());
-        toModifyProject.setCreatorUser("ADMIN");
+        toModifyProject.setPm_mid(projectMemberId);
         toModifyProject.setCreatedTime(new Date().getTime());
 //        toModifyProject.setUserNo(1);
 

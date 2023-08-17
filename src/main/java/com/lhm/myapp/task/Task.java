@@ -17,7 +17,7 @@ import java.util.Date;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long taskNo; // primary key
+    private long tid; // primary key
 
     @Column(nullable = false)
     private String title;   // Task 제목
@@ -34,11 +34,12 @@ public class Task {
     
     private String status;      // 상태 (1: 진행중, 2: 완료, 3: 지연)
 
-    private String creatorName;   // Project Manager
-
     private long createdTime; // 생성일
 
-    // Project 엔티티 키
-    private long projectId;
+    @Column(nullable = false)
+    private String mid;   // member id
+
+    @Column(nullable = false)
+    private long pid;   // project id
 
 }
