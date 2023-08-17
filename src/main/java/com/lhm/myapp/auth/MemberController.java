@@ -22,7 +22,7 @@ public class MemberController {
 
         System.out.println("입력값 확인 : " + email);
 
-        Optional<Member> member = repo.findByEmail(email);
+        Optional<MemberProjection> member = repo.findByEmail(email);
 
         Map<String, Object> res = new HashMap<>();
 
