@@ -37,7 +37,7 @@ public class TaskController {
     @PostMapping(value = "/project/{pid}/task")
     public ResponseEntity<Map<String, Object>> AddTask(@PathVariable long pid,
                                                        @RequestBody Task task) {
-        System.out.println("입력값 확인 : "+task);
+        System.out.println("입력값 확인 - pid : "+pid +", task : "+task);
 
         // TODO list
         // 1. 입력값 검증 :
