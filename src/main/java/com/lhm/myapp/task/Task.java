@@ -1,5 +1,6 @@
 package com.lhm.myapp.task;
 
+import com.lhm.myapp.project.Project;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,9 +38,9 @@ public class Task {
     private long createdTime; // 생성일
 
     @Column(nullable = false)
-    private String mid;   // member id
+    private long mid;   // member id
 
-    @Column(nullable = false)
-    private long pid;   // project id
+    @ManyToOne
+    private Project project;
 
 }

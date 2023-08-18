@@ -54,9 +54,11 @@ public class ProjectController {
         // TODO list
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
 
-        // 추가 정보 등록
+
         // TODO list : pm_mid는 로그인 정보로 변경
         Long projectMemberId = 1L;
+
+        // 추가 정보 등록
         reqProject.setStatus("1"); // 진행중
         reqProject.setPm_mid(projectMemberId);
         reqProject.setCreatedTime(new Date().getTime());
