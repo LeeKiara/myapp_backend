@@ -1,10 +1,10 @@
-package com.lhm.myapp.auth;
+package com.lhm.myapp.auth.entity;
 
 public interface MemberProjection {
 
     Long getMid();
     String getUsername();
-    String getName();
+    String getMname();
     String getEmail();
 
 }

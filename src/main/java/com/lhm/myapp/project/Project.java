@@ -1,13 +1,10 @@
 package com.lhm.myapp.project;
 
-import com.lhm.myapp.auth.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Builder

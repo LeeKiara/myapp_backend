@@ -1,0 +1,15 @@
+//1. (브라우저) 로그인 요청
+    // [RequestLine]
+    //   HTTP 1.1 POST 로그인주소
+    // [RequestHeader]
+    //   content-type: www-form-urlencoded
+    // [Body]
+    //   id=...&pw=...
+
+    //2. (서버) 로그인 요청을 받고 인증처리 후 쿠키 응답 및 웹페이지로 이동
+    // HTTP Status 302 (리다이렉트)
+    // [Response Header]
+    //   Set-Cookie: 인증키=키........; domain=.naver.com
+    //   Location: "리다이렉트 주소"
+
+    //3. (브라우저) 쿠키를 생성(도메인에 맞게)

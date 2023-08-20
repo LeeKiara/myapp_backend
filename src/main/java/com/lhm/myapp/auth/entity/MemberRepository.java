@@ -1,10 +1,10 @@
-package com.lhm.myapp.auth;
+package com.lhm.myapp.auth.entity;
 
-import com.lhm.myapp.project.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByUsername(String username);
     Optional<MemberProjection> findByEmail(String email);
 }

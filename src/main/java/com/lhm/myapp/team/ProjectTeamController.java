@@ -1,9 +1,6 @@
 package com.lhm.myapp.team;
 
-import com.lhm.myapp.auth.Member;
-import com.lhm.myapp.auth.MemberProjection;
-import com.lhm.myapp.project.Project;
-import com.lhm.myapp.project.ProjectRepository;
+import com.lhm.myapp.auth.entity.MemberProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

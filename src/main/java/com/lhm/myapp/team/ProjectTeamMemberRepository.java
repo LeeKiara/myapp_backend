@@ -1,8 +1,7 @@
 package com.lhm.myapp.team;
 
 
-import com.lhm.myapp.auth.Member;
-import com.lhm.myapp.auth.MemberProjection;
+import com.lhm.myapp.auth.entity.MemberProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ProjectTeamMemberRepository extends JpaRepository<ProjectTeamMember, Long> {

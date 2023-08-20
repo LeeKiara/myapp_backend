@@ -1,4 +1,4 @@
-package com.lhm.myapp.auth;
+package com.lhm.myapp.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class Member {
     @Column(nullable = false)
     private String secret;      // 암호화된 비밀번호
 
-    private String name;        // 성명
+    private String mname;        // 성명
 
     @Column(nullable = false)
     private String email;       // 이메일

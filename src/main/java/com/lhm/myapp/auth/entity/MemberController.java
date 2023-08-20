@@ -1,4 +1,4 @@
-package com.lhm.myapp.auth;
+package com.lhm.myapp.auth.entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
