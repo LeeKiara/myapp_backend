@@ -28,8 +28,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addCorsMappings(registry);
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor);
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(authInterceptor);
+//    }
 }

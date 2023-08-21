@@ -96,17 +96,21 @@ public class AuthController {
     public ResponseEntity signIn(
             @RequestParam String username,
             @RequestParam String password,
-//            @RequestBody SignupRequest req,
             HttpServletResponse res) {
-
-//        String username = req.getUsername();
-//        String password = req.getPassword();
-//        String nextPage = req.getNextPage();
-        String nextPage = "/";
 
         System.out.println("입력값 확인(username) : "+username);
         System.out.println("입력값 확인(password) : "+password);
-        System.out.println("입력값 확인(nextPage) : "+nextPage);
+
+        // 1. 입력값 검증
+        if(username.isEmpty() || password.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(ServletUriComponentsBuilder
+                            .fromHttpUrl("http://localhost:5500/member/login.html?return-status=400")
+                            .build().toUri())
+                    .build();
+        }
 
         // 1. username으로 사용자 정보 확인
         Optional<Member> Member = repo.findByUsername(username);
@@ -115,7 +119,13 @@ public class AuthController {
         // status 401(Unauthorized) : 인증정보가 잘못되었습니다.
         if(!Member.isPresent()) {
             System.out.println("username에 해당하는 회원정보 없음 :: Return 401(Unauthorized) status 리턴");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(ServletUriComponentsBuilder
+                            .fromHttpUrl("http://localhost:5500/member/login.html?return-status=401")
+                            .build().toUri())
+                    .build();
         }
 
         // 2. 비밀번호 확인 : 사용자가 입력한 패스워드와 db에 저장된 암호화된 패스워드와 암호화된 패스워들끼리 비교하여 검증
@@ -126,8 +136,16 @@ public class AuthController {
 
         // 3. 일치하지 않으면, 401(Unauthorized) status 리턴
         if(!isVerified) {
-            System.out.println("비밀번호 일치하지 않음 :: Return 401(Unauthorized) status 리턴");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            System.out.println("비밀번호 일치하지 않음 :: Return 401(Unauthorized) status 리턴 후 페이지 이동");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+            // 비밀번호 일치하지 않으면 로그인 페이지 이동
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(ServletUriComponentsBuilder
+                            .fromHttpUrl("http://localhost:5500/member/login.html?return-status=401")
+                            .build().toUri())
+                    .build();
         }
 
         // ------------- 여기까지 왔으면, 인증이 성공된 거니 회원정보를 조회한다.
@@ -154,14 +172,12 @@ public class AuthController {
         // 6. Response Header에 쿠키 추가
         res.addCookie(cookie);
 
-        return ResponseEntity.ok().build();
-
         // 7. 로그인 후 페이지 이동
-//        return ResponseEntity
-//                .status(HttpStatus.FOUND)
-//                .location(ServletUriComponentsBuilder
-//                        .fromHttpUrl("http://localhost:5500"+nextPage)
-//                        .build().toUri())
-//                .build();
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .location(ServletUriComponentsBuilder
+                        .fromHttpUrl("http://localhost:5500")
+                        .build().toUri())
+                .build();
     }
 }
