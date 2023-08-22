@@ -26,8 +26,11 @@ public class ProjectController {
     ProjectRepository repo;
 
     // 프로젝트id로 프로젝트 정보 가져오기
+    // GET /project/1
+    @Auth
     @GetMapping(value = "/{pid}")
-    public ResponseEntity<Map<String, Object>> getProject(@PathVariable Long pid) {
+    public ResponseEntity<Map<String, Object>> getProject(@PathVariable Long pid,
+                                                          @RequestAttribute AuthProfile authProfile) {
         System.out.println("입력값 확인 : " + pid);
 
         Optional<Project> project = repo.findById(pid);
@@ -127,6 +130,7 @@ public class ProjectController {
 
     // 프로젝트 상태값으로 프로젝트 정보 조회
     // GET /project/paging/searchByStatus?page=0&size=10
+    @Auth
     @GetMapping(value = "/paging/searchByStatus")
     public Page<Project> getProjectPagingSearchByStatus(@RequestParam int page, @RequestParam int size,
                                                         @RequestParam String status) {
@@ -200,8 +204,10 @@ public class ProjectController {
    /*
      프로젝트 정보 삭제(DB : delete)
    */
+    @Auth
     @DeleteMapping(value = "/{pid}")
-    public ResponseEntity<Map<String, Object>> removeProject(@PathVariable Long pid) {
+    public ResponseEntity<Map<String, Object>> removeProject(@PathVariable Long pid,
+                                                             @RequestAttribute AuthProfile authProfile) {
 
         System.out.println("1.입력값 확인 : "+pid);
 
