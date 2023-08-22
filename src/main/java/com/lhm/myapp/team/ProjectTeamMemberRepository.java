@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectTeamMemberRepository extends JpaRepository<ProjectTeamMember, Long> {
@@ -22,10 +23,20 @@ public interface ProjectTeamMemberRepository extends JpaRepository<ProjectTeamMe
 //    List<Member> findTeamMemberByPid(long pid);
 
     @Query("SELECT m FROM Member m " +
+            " LEFT JOIN ProjectTeamMember ptm ON m.mid = ptm.mid " +
+            " WHERE ptm.pid = :pid " +
+            "   AND ptm.mid = :mid ")
+    MemberProjection findTeamMemberByPidAndByMid(@Param("pid") long pid, @Param("mid") long mid);
+
+    @Query("SELECT m FROM Member m " +
             "LEFT JOIN ProjectTeamMember ptm ON m.mid = ptm.mid " +
             "WHERE ptm.pid = :pid")
     List<MemberProjection> findTeamMemberByPid(@Param("pid") long pid);
 
+    Optional<ProjectTeamMember> findByPidAndMid(long pid, long mid);
+
     Page<ProjectTeamMember> findByPidOrderByCreatedTimeDesc(long pid,
                                                                  Pageable pageable);
+
+    long deleteByPidAndMid(long pid, long mid);
 }
