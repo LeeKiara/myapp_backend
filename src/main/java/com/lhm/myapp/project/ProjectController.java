@@ -4,6 +4,7 @@ import com.lhm.myapp.auth.Auth;
 import com.lhm.myapp.auth.AuthProfile;
 import com.lhm.myapp.auth.entity.Member;
 import com.lhm.myapp.auth.entity.MemberProjection;
+import com.lhm.myapp.auth.entity.MemberRepository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,9 @@ public class ProjectController {
     @Autowired
     ProjectRepository repo;
 
+    @Autowired
+    MemberRepository memberRepo;
+
     // 프로젝트id로 프로젝트 정보 가져오기
     // GET /project/1
     @Auth
@@ -34,17 +38,28 @@ public class ProjectController {
         System.out.println("입력값 확인 : " + pid);
 
         Optional<Project> project = repo.findById(pid);
+        Optional<Member> member = memberRepo.findById(project.get().getCreatorUser());
+
+        System.out.println("member");
+        System.out.println(member);
 
         Map<String, Object> res = new HashMap<>();
 
         if (project.isPresent()) {
             res.put("data", project.get());
+            res.put("data2", member.get());
             res.put("message", "FOUND");
+
+            if(authProfile.getId() == project.get().getCreatorUser()) {
+                res.put("role", "modify");
+            }
 
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } else {
             res.put("data", null);
+            res.put("data2", null);
             res.put("message", "NOT_FOUND");
+            res.put("role", null);
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
         }

@@ -1,0 +1,6 @@
+[{"mid":1, "email":"kiara@gmail.com", "mname":"kiara lee", "secret":"$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.", "username":"kiara"},
+ {"mid":2, "email":"user1@example.com", "mname":"User One", "secret":"$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.", "username":"user1"},
+ {"mid":3, "email":"user2@example.com", "mname":"User Two", "secret":"$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.", "username":"user2"},
+ {"mid":4, "email":"user3@example.com", "mname":"User Three", "secret":"$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.", "username":"user3"},
+ {"mid":5, "email":"user4@example.com", "mname":"User Four", "secret":"$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.", "username":"user4"},
+ {"mid":6, "email":"user5@example.com", "mname":"User Five", "secret":"$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.", "username":"user5"}]
