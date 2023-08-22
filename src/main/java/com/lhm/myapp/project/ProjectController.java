@@ -1,5 +1,9 @@
 package com.lhm.myapp.project;
 
+import com.lhm.myapp.auth.Auth;
+import com.lhm.myapp.auth.AuthProfile;
+import com.lhm.myapp.auth.entity.Member;
+import com.lhm.myapp.auth.entity.MemberProjection;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,22 +49,21 @@ public class ProjectController {
 
     /*
        프로젝트 정보 등록(DB : insert)
+       POST /project
      */
+    @Auth
     @PostMapping
-    public ResponseEntity<Map<String, Object>> addProject(@RequestBody Project reqProject) {
+    public ResponseEntity<Map<String, Object>> addProject(@RequestBody Project reqProject,
+                                                          @RequestAttribute AuthProfile authProfile) {
 
         System.out.println("입력값 확인 : "+reqProject);
 
         // TODO list
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
 
-
-        // TODO list : pm_mid는 로그인 정보로 변경
-        Long projectMemberId = 1L;
-
         // 추가 정보 등록
         reqProject.setStatus("1"); // 진행중
-        reqProject.setPm_mid(projectMemberId);
+        reqProject.setCreatorUser(authProfile.getId()); // 생성자 id : 로그인 id
         reqProject.setCreatedTime(new Date().getTime());
 
         // 2. Project DB insert
@@ -84,17 +87,41 @@ public class ProjectController {
 
     // 프로젝트 정보 조회 (페이지 단위로)
     // GET /project/paging?page=0&size=10
+    @Auth
     @GetMapping(value = "/paging")
-    public Page<Project> getProjectPaging(@RequestParam int page, @RequestParam int size) {
+    public Page<Project> getProjectPaging(@RequestParam int page, @RequestParam int size,
+                                          @RequestAttribute AuthProfile authProfile) {
 
+        System.out.println("ProjectController getProjectPaging call");
         System.out.println("page :"+page);
         System.out.println("size :"+size);
+        System.out.println("authProfile :"+authProfile);
 
         Sort sort = Sort.by("createdTime").descending();
 
         PageRequest pageRequest = PageRequest.of(page,size,sort);
 
         return repo.findAll(pageRequest);
+
+    }
+    // 프로젝트 creatorUser 값으로 프로젝트 정보 조회 (로그인한 user정보로)
+    // GET /project/paging/myproject
+    @Auth
+    @GetMapping(value = "/paging/myproject")
+    public Page<Project> getMyProject(@RequestParam int page, @RequestParam int size,
+                                                            @RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("ProjectController getMyProject call");
+        System.out.println("page :"+page);
+        System.out.println("size :"+size);
+        System.out.println("authProfile :"+authProfile);
+        System.out.println("authProfile.getId() :"+authProfile.getId());
+
+        Sort sort = Sort.by("createdTime").descending();
+
+        PageRequest pageRequest = PageRequest.of(page,size,sort);
+
+        return repo.findByCreatorUser(authProfile.getId(), pageRequest);
 
     }
 
@@ -119,8 +146,10 @@ public class ProjectController {
     /*
        프로젝트 정보 수정(DB : update)
      */
+    @Auth
     @PutMapping(value = "/{pid}")
-    public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long pid, @RequestBody  Project project) {
+    public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long pid, @RequestBody  Project project,
+                                                             @RequestAttribute AuthProfile authProfile) {
 
         System.out.println("1.입력값 확인 : "+pid);
         System.out.println("2.입력값 확인 : "+project);
@@ -146,9 +175,6 @@ public class ProjectController {
         // TODO
         // 1. 입력값 검증 : 프로젝트명, 기간 등...
 
-        // TODO list : pm_mid는 로그인 정보로 변경
-        Long projectMemberId = 1L;
-
         toModifyProject.setTitle(project.getTitle());
         toModifyProject.setDescription(project.getDescription());
         toModifyProject.setStartDate(project.getStartDate());
@@ -157,9 +183,8 @@ public class ProjectController {
             toModifyProject.setImage(project.getImage());
         }
         toModifyProject.setStatus(project.getStatus());
-        toModifyProject.setPm_mid(projectMemberId);
+        toModifyProject.setCreatorUser(authProfile.getId());
         toModifyProject.setCreatedTime(new Date().getTime());
-//        toModifyProject.setUserNo(1);
 
         // update
         Project savedProject = repo.save(toModifyProject);

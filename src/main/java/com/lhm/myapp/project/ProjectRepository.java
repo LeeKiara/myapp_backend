@@ -9,11 +9,20 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
+//    Page<Project> findByPm_mid(long pm_mid, Pageable pageable);
     Page<Project> findByStatus(String status,
                                Pageable pageable);
 
     Page<Project> findFirstByStatusOrderByCreatedTimeDesc(String status,
                                                           Pageable pageable);
+
+    Page<Project> findByTitle(String title, Pageable pageable);
+
+    Page<Project> findByCreatorUser(long creatorUser, Pageable pageable);
+
+
+
+
 
 
 }

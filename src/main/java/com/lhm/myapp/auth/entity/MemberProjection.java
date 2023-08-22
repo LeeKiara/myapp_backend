@@ -1,5 +1,6 @@
 package com.lhm.myapp.auth.entity;
 
+
 public interface MemberProjection {
 
     Long getMid();

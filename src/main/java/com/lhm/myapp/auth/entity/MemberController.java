@@ -1,6 +1,9 @@
 package com.lhm.myapp.auth.entity;
 
+import com.lhm.myapp.auth.Auth;
+import com.lhm.myapp.auth.AuthProfile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +40,16 @@ public class MemberController {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
         }
+
+    }
+
+    @Auth
+    @GetMapping(value="/getUserInfo")
+    public ResponseEntity<AuthProfile> getAuthProfile(@RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("authProfile :"+authProfile);
+
+        return ResponseEntity.status(HttpStatus.OK).body(authProfile);
 
     }
 }

@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lhm.myapp.auth.AuthProfile;
 import com.lhm.myapp.auth.entity.Member;
 
 import java.util.Date;
@@ -31,13 +32,13 @@ public class JwtUtil {
                 // sub: 토큰 소유자
                 .withSubject(String.valueOf(id))
                 .withClaim("username", username)
-                .withClaim("mname", mname)
+                .withClaim("nickname", mname)
                 .withIssuedAt(now)
                 .withExpiresAt(exp)
                 .sign(algorithm);
     }
 
-    public Member validateToken(String token) {
+    public AuthProfile validateToken(String token) {
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
         // 검증 객체 생성
@@ -45,20 +46,18 @@ public class JwtUtil {
 
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
-
             // 토큰 검증 제대로 된 상황
             // 토큰 페이로드(데이터, subject/claim)를 조회
             Long id = Long.valueOf(decodedJWT.getSubject());
-
+            String nickname = decodedJWT
+                    .getClaim("nickname").asString();
             String username = decodedJWT
-                             .getClaim("username").asString();
-            String mname = decodedJWT
-                    .getClaim("mname").asString();
+                    .getClaim("username").asString();
 
-           return Member.builder()
-                   .mid(id)
+           return AuthProfile.builder()
+                   .id(id)
                    .username(username)
-                   .mname(mname)
+                   .nickname(nickname)
                    .build();
 
         } catch (JWTVerificationException e) {
