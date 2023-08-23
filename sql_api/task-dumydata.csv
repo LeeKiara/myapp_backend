@@ -1,3 +1,10 @@
-[{"tid":1, "created_time":1692716078040, "description":"\ubd84\uc11d\uc740 8\uc6d4\uae4c\uc9c0 \ub9c8\ubb34\ub9ac \ud569\ub2c8\ub2e4.", "end_date":"2023-08-31", "mid":1, "start_date":"2023-08-22", "status":"1", "title":"\ubd84\uc11d", "project_pid":3},
- {"tid":2, "created_time":1692716116256, "description":"\uc124\uacc4\ub294 9\uc6d4\uae4c\uc9c0 \uc644\ub8cc \uc608\uc815\uc785\ub2c8\ub2e4.", "end_date":"2023-09-30", "mid":1, "start_date":"2023-09-01", "status":"1", "title":"\uc124\uacc4", "project_pid":3},
- {"tid":3, "created_time":1692716449983, "description":"\ud68c\uc6d0\uad00\ub9ac\ub294 10\uc6d4~11\uc6d4 \uac1c\ubc1c \uc608\uc815\uc785\ub2c8\ub2e4.", "end_date":"2023-11-15", "mid":1, "start_date":"2023-10-01", "status":"1", "title":"\uac1c\ubc1c", "project_pid":3}]
+tid,created_time,description,end_date,mid,start_date,status,title,project_pid
+1,1692755690275,task1,2023-08-31,1,2023-08-23,1,task1,11
+2,1692755727651,task2,2023-08-30,1,2023-08-23,1,task2,11
+5,1692768719577,"1. 요구사항 검토
+2. 요구사항 명세서 작성
+",2023-09-23,1,2023-08-23,1,분석단계,8
+7,1692772918096,"1. 객체 모델링 작성
+2. 스토리보드 작성",2023-10-23,1,2023-09-25,1,설계단계,8
+8,1692775140695,회원관리,2023-11-23,1,2023-10-23,1,개발1,8
+9,1692775364829,"커뮤니티 개발",2023-11-23,6,2023-10-23,1,개발2,8

@@ -1,3 +1,12 @@
+INSERT INTO `member` (`email`, `mname`, `secret`, `username`)
+VALUES
+  ('user1@google.com', 'User One', '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.', 'user1'),
+  ('user2@google.com', 'User Two', '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.', 'user2'),
+  ('user3@google.com', 'User Three', '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.', 'user3'),
+  ('user4@google.com', 'User Four', '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.', 'user4'),
+  ('user5@google.com', 'User Five', '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.', 'user5'),
+  ('kiara@google.com', 'User six', '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.', 'kiara');
+
 INSERT INTO `project` (`created_time`, `creator_user`, `description`, `end_date`, `image`, `start_date`, `status`, `title`)
 VALUES
   (UNIX_TIMESTAMP('2023-08-01'), 1, 'Sample project 1', '2023-08-31', NULL, '2023-08-01', 'In Progress', 'Project A'),
