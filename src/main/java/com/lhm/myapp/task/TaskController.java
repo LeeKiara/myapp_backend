@@ -72,6 +72,21 @@ public class TaskController {
         return taskList;
     }
 
+    // Task 리스트 조회(다건)
+    // GET /project/tasks-member?pid=1
+    @Auth
+    @GetMapping(value = "/project/tasks-member")
+    public List<TaskMemberProjection> getTaskListJoinMember(@RequestParam long pid,
+                                  @RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("입력값 확인 : "+pid);
+
+        // Project id로 Tasks 정보 조회
+        List<TaskMemberProjection> taskList = repo.findTaskMemberByPid(pid);
+
+        return taskList;
+    }
+
     /*
        Task 정보 추가(DB : insert)
        POST /project/{pid}/task
@@ -209,4 +224,56 @@ public class TaskController {
 
     }
 
+    @GetMapping(value = "/test/project/getCountTask")
+    public TaskSummaryProjection getCountTask(@RequestParam long mid) {
+
+        System.out.println("\nTaskController..getCountTask 입력값 확인 : "+mid);
+
+        // Project id로 Tasks 정보 조회
+        TaskSummaryProjection cntTask = repo.getCountTask(mid);
+
+        System.out.println(cntTask);
+        System.out.println(cntTask.getCountTask());
+
+        return cntTask;
+    }
+
+    @GetMapping(value = "/test/project/getCountTaskByPid")
+    public TaskSummaryProjection getCountTaskByPid(@RequestParam long pid) {
+
+        System.out.println("\nTaskController..getCountTaskByPid 입력값 확인 : "+pid);
+
+        // Project id로 Tasks 정보 조회
+        TaskSummaryProjection cntTask = repo.getCountTaskByPid(pid);
+
+        System.out.println(cntTask);
+        System.out.println(cntTask.getCountTask());
+
+        return cntTask;
+    }
+
+    // GET /test/project/tasks?pid=1
+    @GetMapping(value = "/test/project/tasks")
+    public List<TaskMemberProjection> testTaskList(@RequestParam long pid) {
+
+        System.out.println("\nTaskController..testTaskList 입력값 확인 : "+pid);
+
+        // Project id로 Tasks 정보 조회
+        List<TaskMemberProjection> taskList = repo.findTaskMemberByPid(pid);
+
+        System.out.println(taskList.size());
+
+        for (int i = 0; i < taskList.size(); i++) {
+
+            TaskMemberProjection tp = taskList.get(i);
+            System.out.println("getTitle:"+tp.getTitle());
+            System.out.println("getDescription:"+tp.getDescription());
+            System.out.println("getUsername:"+tp.getUsername());
+            System.out.println("getStartdate:"+tp.getStartDate());
+            System.out.println("getEndDate:"+tp.getEndDate());
+        }
+
+
+        return taskList;
+    }
 }

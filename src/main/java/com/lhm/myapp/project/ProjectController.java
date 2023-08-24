@@ -5,6 +5,7 @@ import com.lhm.myapp.auth.AuthProfile;
 import com.lhm.myapp.auth.entity.Member;
 import com.lhm.myapp.auth.entity.MemberProjection;
 import com.lhm.myapp.auth.entity.MemberRepository;
+import lombok.extern.log4j.Log4j2;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,12 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
+@Log4j2
 @RequestMapping("/project")
 public class ProjectController {
 
@@ -122,7 +121,8 @@ public class ProjectController {
         return repo.findAll(pageRequest);
 
     }
-    // 프로젝트 creatorUser 값으로 프로젝트 정보 조회 (로그인한 user정보로)
+
+    // 내가 생성한 프로젝트 조회 (key:creatorUser)
     // GET /project/paging/myproject
     @Auth
     @GetMapping(value = "/paging/myproject")
@@ -140,7 +140,22 @@ public class ProjectController {
         PageRequest pageRequest = PageRequest.of(page,size,sort);
 
         return repo.findByCreatorUser(authProfile.getId(), pageRequest);
+    }
 
+    // 내가 참여한 프로젝트 조회
+    // GET /project/join
+     @Auth
+     @GetMapping(value = "/join")
+    public List<ProjectProjection> getJoinProject(@RequestParam("mid") Long mid,@RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("ProjectController getJoinProject call");
+        System.out.println("mid :"+mid);
+
+
+
+        List<ProjectProjection> joinProjects = repo.findProjectByMid(mid);
+
+        return joinProjects;
     }
 
     // 프로젝트 상태값으로 프로젝트 정보 조회
