@@ -42,4 +42,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<ProjectProjection> findProjectByMid(@Param("mid") long mid);
 
 
+
+
 }

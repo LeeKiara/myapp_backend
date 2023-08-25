@@ -5,6 +5,7 @@ import com.lhm.myapp.auth.AuthProfile;
 import com.lhm.myapp.auth.entity.Member;
 import com.lhm.myapp.auth.entity.MemberProjection;
 import com.lhm.myapp.auth.entity.MemberRepository;
+import com.lhm.myapp.task.Task;
 import lombok.extern.log4j.Log4j2;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,33 @@ public class ProjectController {
 
         return ResponseEntity.ok().build();
 
+    }
+
+    // 프로젝트 전체 조회(리스트)
+    // GET /project/list
+    @Auth
+    @GetMapping(value = "/list-all")
+    public List<Project> getProjectList(@RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("\n <<< ProjectController getProjectList >>> ");
+
+        Sort sort = Sort.by("createdTime").descending();
+
+        return repo.findAll(sort);
+    }
+
+    // 내가 참여한 프로젝트 전체 조회(리스트)
+    // GET /project/list
+    @Auth
+    @GetMapping(value = "/list-myproject")
+    public List<ProjectProjection> getMyProjectList(@RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("\n <<< ProjectController getProjectList >>> ");
+        System.out.println("입력값 확인 : " + authProfile.getId());
+
+        long mid = authProfile.getId();
+
+        return repo.findProjectByMid(mid);
     }
 
     // 프로젝트 정보 조회 (페이지 단위로)
