@@ -146,12 +146,11 @@ public class ProjectController {
     // GET /project/join
      @Auth
      @GetMapping(value = "/join")
-    public List<ProjectProjection> getJoinProject(@RequestParam("mid") Long mid,@RequestAttribute AuthProfile authProfile) {
+    public List<ProjectProjection> getJoinProject(@RequestAttribute AuthProfile authProfile) {
 
-        System.out.println("ProjectController getJoinProject call");
-        System.out.println("mid :"+mid);
+        System.out.println("\n<<< ProjectController getJoinProject call >>>");
 
-
+        long mid = authProfile.getId();
 
         List<ProjectProjection> joinProjects = repo.findProjectByMid(mid);
 

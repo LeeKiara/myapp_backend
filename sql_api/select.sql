@@ -76,3 +76,6 @@ t1.description
 FROM Project t1
 LEFT JOIN Project_team_member t2 on t1.pid = t2.pid
 AND t2.mid = 6;
+
+SELECT   t2.title AS title,  t2.description AS description,  t2.start_date,  t2.end_date,  t2.creator_user,  t2.status,  t1.pid  
+FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = 6;

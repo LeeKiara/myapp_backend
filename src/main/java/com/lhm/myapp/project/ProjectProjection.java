@@ -5,13 +5,13 @@ import java.util.Date;
 
 public interface ProjectProjection {
 
-    Long getTid();
+    Long getPid();
     String getTitle();
     String getDescription();
     Date getStartDate();
     Date getEndDate();
     Long getMid();
     String getStatus();
-    String getUsername();
+    String getCreatorUser();
 
 }

@@ -26,14 +26,16 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Page<Project> findByCreatorUser(long creatorUser, Pageable pageable);
 
+    // 내가 참여한 프로젝트 정보 조회
     @Query(value = "SELECT  " +
-                    "t2.title AS title, " +
-                    "t2.description AS description" +
-//                    "t2.start_date, " +
-//                    "t2.end_date, " +
-//                    "t2.creator_user, " +
-//                    "t2.status, " +
-//                    "t1.pid " +
+                    " t2.title AS title, " +
+                    " t2.description AS description, " +
+                    " t2.start_date As startDate, " +
+                    " t2.end_date AS endDate, " +
+                    " t2.creator_user AS creatorUser, " +
+                    " t2.status, " +
+                    " t1.pid, " +
+                    " t1.mid " +
                     " FROM project_team_member t1 " +
                     " LEFT JOIN project t2 ON t1.pid = t2.pid " +
                     "  WHERE t1.mid = :mid", nativeQuery = true)

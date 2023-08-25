@@ -6,6 +6,7 @@ import com.lhm.myapp.project.Project;
 import com.lhm.myapp.project.ProjectRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class TaskController {
 
     @Autowired
     ProjectRepository projectRepo;
+
+    @Autowired
+    TaskService service;
 
     // Task 정보 조회(1건)
     // GET /project/task?tid=1
@@ -224,7 +228,7 @@ public class TaskController {
 
     }
 
-    @GetMapping(value = "/test/project/getCountTask")
+    @GetMapping(value = "/project/task/count")
     public TaskSummaryProjection getCountTask(@RequestParam long mid) {
 
         System.out.println("\nTaskController..getCountTask 입력값 확인 : "+mid);
@@ -238,42 +242,37 @@ public class TaskController {
         return cntTask;
     }
 
-    @GetMapping(value = "/test/project/getCountTaskByPid")
-    public TaskSummaryProjection getCountTaskByPid(@RequestParam long pid) {
+    // 프로젝트의 Task 갯수 조회
+    // GET /project/{pid}/task/count
+    @GetMapping(value = "/project/{pid}/task/count")
+    public ResponseEntity<Map<String, Object>> getCountTaskByPid(@PathVariable long pid) {
 
         System.out.println("\nTaskController..getCountTaskByPid 입력값 확인 : "+pid);
 
         // Project id로 Tasks 정보 조회
-        TaskSummaryProjection cntTask = repo.getCountTaskByPid(pid);
+        TaskSummaryProjection countTask = repo.getCountTaskByPid(pid);
 
-        System.out.println(cntTask);
-        System.out.println(cntTask.getCountTask());
+        System.out.println(countTask.getCountTask());
 
-        return cntTask;
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", countTask.getCountTask());
+        res.put("message", "OK");
+
+        return ResponseEntity.ok().body(res);
     }
 
-    // GET /test/project/tasks?pid=1
-    @GetMapping(value = "/test/project/tasks")
-    public List<TaskMemberProjection> testTaskList(@RequestParam long pid) {
+    @PostMapping("/project/task/remove")
+    public ResponseEntity<String> removeTaskList(@RequestBody List<Long> tidList) {
 
-        System.out.println("\nTaskController..testTaskList 입력값 확인 : "+pid);
-
-        // Project id로 Tasks 정보 조회
-        List<TaskMemberProjection> taskList = repo.findTaskMemberByPid(pid);
-
-        System.out.println(taskList.size());
-
-        for (int i = 0; i < taskList.size(); i++) {
-
-            TaskMemberProjection tp = taskList.get(i);
-            System.out.println("getTitle:"+tp.getTitle());
-            System.out.println("getDescription:"+tp.getDescription());
-            System.out.println("getUsername:"+tp.getUsername());
-            System.out.println("getStartdate:"+tp.getStartDate());
-            System.out.println("getEndDate:"+tp.getEndDate());
+        for (Long value : tidList) {
+            // 각 값에 대한 처리 로직을 추가
+            System.out.println("Received value: " + value);
         }
 
+        service.deleteTaskList(tidList);
 
-        return taskList;
+        return ResponseEntity.ok().build();
     }
+
+
 }
