@@ -179,7 +179,7 @@ public class TaskController {
         toModifyTask.setDescription(task.getDescription());
         toModifyTask.setStartDate(task.getStartDate());
         toModifyTask.setEndDate(task.getEndDate());
-//        toModifyTask.setStatus(task.getStatus());
+        toModifyTask.setStatus(task.getStatus());
         toModifyTask.setCreatedTime(new Date().getTime());
 
         // update

@@ -3,6 +3,11 @@ select * from project;
 select * from project_team_member;
 select * from task;
 
+select * from project_team_member where pid in (
+select pid from project where creator_user in (
+   select mid from member where username = "user1"
+   ));
+   
 select * from project_team_member where mid = 6;
 
 -- update member set secret = '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.' where mid = 16;
