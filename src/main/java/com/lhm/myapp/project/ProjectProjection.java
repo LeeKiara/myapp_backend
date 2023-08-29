@@ -13,5 +13,7 @@ public interface ProjectProjection {
     Long getMid();
     String getStatus();
     String getCreatorUser();
+    String getImage();
+
 
 }

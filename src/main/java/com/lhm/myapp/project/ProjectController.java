@@ -6,6 +6,7 @@ import com.lhm.myapp.auth.entity.Member;
 import com.lhm.myapp.auth.entity.MemberProjection;
 import com.lhm.myapp.auth.entity.MemberRepository;
 import com.lhm.myapp.task.Task;
+import com.lhm.myapp.team.ProjectTeamMemberRepository;
 import lombok.extern.log4j.Log4j2;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class ProjectController {
     @Autowired
     MemberRepository memberRepo;
 
+    @Autowired
+    ProjectTeamMemberRepository projectTeamMemberRepo;
+
     // 프로젝트id로 프로젝트 정보 가져오기
     // GET /project/1
     @Auth
@@ -50,8 +54,10 @@ public class ProjectController {
             res.put("data2", member.get());
             res.put("message", "FOUND");
 
+            // 로그인한 유저가 프로젝트 생성자일 경우
             if(authProfile.getId() == project.get().getCreatorUser()) {
                 res.put("role", "modify");
+                res.put("role-project", "CRUD");
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(res);
@@ -60,6 +66,7 @@ public class ProjectController {
             res.put("data2", null);
             res.put("message", "NOT_FOUND");
             res.put("role", null);
+            res.put("role-project", "");
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
         }
@@ -296,4 +303,82 @@ public class ProjectController {
 
     }
 
+    /*-------------------------------------------------------------------------------------------------------------
+         프로젝트 :
+         - 조회/생성 : 회원전체
+         - 수정/삭제 : 관리자
+
+        프로젝트 팀멤버 구성
+         - 조회 : 회원전체
+         - 등록/ 수정/삭제 : 관리자
+
+        작업
+        - 조회 : 회원전체
+        - 등록/ 수정/삭제 : 관리자와 팀멤버 구성원
+
+        * 관리자는 프로젝트를 생성하면 관리자 role을 부여 받게 된다.
+
+        예)
+        ○ pm1이 프로젝트를 생성한 후 role은 다음과 같다.
+        role-project : CRUD
+        role-tmember : CRUD
+        role-task : CRUD
+
+        ○ projectA 팀멤버에 포함된 user1의 role
+        role-project : R
+        role-tmember : R
+        role-task : CRUD (UD는 본인이 등록한 task만 가능)
+
+        ○ 아무 프로젝트에도 포함되는 않은 user2의 role
+        role-project : R
+        role-tmember : R
+        role-task : R
+     ------------------------------------------------------------------------------------------------------------*/
+    @Auth
+    @GetMapping(value = "/{pid}/role")
+    public ResponseEntity<Map<String, Object>> getProjectRole(@PathVariable Long pid,
+                                                          @RequestAttribute AuthProfile authProfile) {
+        System.out.println("입력값 확인 : " + pid);
+
+        // 프로젝트 정보 조회
+        Optional<Project> project = repo.findById(pid);
+        // 회원정보 조회(key: 프로젝트 생성자)
+        Optional<Member> member = memberRepo.findById(project.get().getCreatorUser());
+
+        System.out.println("member");
+        System.out.println(member);
+
+        // 팀 멤버 조회(key: 프로젝트 pid)
+        List<MemberProjection> projectTeamMember = projectTeamMemberRepo.findTeamMemberByPid(pid);
+
+        boolean isAdminUser = false;
+
+        // 로그인한 유저가 프로젝트 생성자일 경우 => 관리자로 역할 부여
+        if(authProfile.getId() == project.get().getCreatorUser()) {
+            isAdminUser = true;
+        }
+
+        Map<String, Object> res = new HashMap<>();
+
+        // 디폴트권한
+        res.put("role-project", "R");
+        res.put("role-tmember", "R");
+        res.put("role-task",    "R");
+
+        if(isAdminUser) {
+            res.put("role-project", "CRUD");
+            res.put("role-tmember", "CRUD");
+            res.put("role-task",    "CRUD");
+        } else {
+            for (MemberProjection tmp : projectTeamMember) {
+                if(authProfile.getId() == tmp.getMid()) {
+                    res.put("role-task", "CRUD");
+                    break;
+                }
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+
+    }
 }

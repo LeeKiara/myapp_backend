@@ -13,3 +13,35 @@
     //   Location: "리다이렉트 주소"
 
     //3. (브라우저) 쿠키를 생성(도메인에 맞게)
+
+
+프로젝트 :
+ - 조회/생성 : 회원전체
+ - 수정/삭제 : 관리자
+
+프로젝트 팀멤버 구성
+ - 조회 : 회원전체
+ - 등록/ 수정/삭제 : 관리자
+
+작업
+- 조회 : 회원전체
+- 등록/ 수정/삭제 : 관리자와 팀멤버 구성원
+
+* 관리자는 프로젝트를 생성하면 관리자 role을 부여 받게 된다.
+
+예)
+○ pm1이 프로젝트를 생성한 후 role은 다음과 같다.
+role-project : CRUD
+role-tmember : CRUD
+role-task : CRUD
+
+○ projectA 팀멤버에 포함된 user1의 role
+role-project : R
+role-tmember : R
+role-task : CRUD (UD는 본인이 등록한 task만 가능)
+
+○ 아무 프로젝트에도 포함되는 않은 user2의 role
+role-project : R
+role-tmember : R
+role-task : R
+

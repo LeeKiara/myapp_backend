@@ -34,6 +34,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                     " t2.end_date AS endDate, " +
                     " t2.creator_user AS creatorUser, " +
                     " t2.status, " +
+                    " t2.image, " +
                     " t1.pid, " +
                     " t1.mid " +
                     " FROM project_team_member t1 " +
