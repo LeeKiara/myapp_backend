@@ -1,9 +1,10 @@
 mid,email,mname,secret,username
-1,user1@gmail.com,"User One",$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,user1
-2,user2@gmail.com,"User Two",$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,user2
-3,user3@gmail.com,"User Three",$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,user3
-4,user4@gmail.com,"User Four",$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,user4
-5,user5@gmail.com,"User Five",$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,user5
-6,kiara@gmail.com,"User six",$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,kiara
-16,hbin1028@gmail.com,hbin1028,$2a$12$NYKYXKKoBRZENu5RIFBfAeqkfdjxnpVkuxHLOfOsKpCRrSsrzCTZi,hbin1028
-17,it1@it.co.kr,it1,$2a$12$IIEuFG3wKVP3hUQp2qMHmOUJOKZLcPyM56WgZvC41DU/gbxKgxM5S,it1
+1,user1@gmail.com,김매니저,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,pm-user1
+2,user2@gmail.com,홍매니저,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,pm-user2
+3,user3@gmail.com,강매니저,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,pm-user3
+4,user4@gmail.com,현매니저,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,pm-user4
+5,user5@gmail.com,개발팀1,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,user5
+6,kiara@gmail.com,기획팀1,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,kiara
+16,hbin1028@gmail.com,UX팀사원,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,hbin1028
+17,it1@gmail.com,개발팀1,$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.,it1
+18,it2@gmail.com,개발팀2,$2a$12$PXD3I0W.87sYwBgCXqBr0uOO/66szcNtlXkYfFrnWqSL2hhXfhlMG,it2

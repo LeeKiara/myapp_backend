@@ -19,6 +19,7 @@ public class Project {
     @Column(nullable = false)
     private String title;   // 프로젝트 제목
 
+    @Column(length = 1000)
     private String description; // 프로젝트 소개
 
     @Temporal(TemporalType.DATE)

@@ -381,4 +381,11 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(res);
 
     }
+
+    @Auth
+    @GetMapping(value = "/userinfo")
+    public AuthProfile getProject(@RequestAttribute AuthProfile authProfile) {
+
+        return authProfile;
+    }
 }

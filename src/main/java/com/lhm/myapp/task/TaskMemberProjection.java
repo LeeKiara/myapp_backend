@@ -16,5 +16,6 @@ public interface TaskMemberProjection {
     Long getMid();
     String getStatus();
     String getUsername();
+    String getMname();
 
 }

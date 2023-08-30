@@ -60,8 +60,17 @@ public class ProjectTeamController {
 
         System.out.println("입력값 확인 : "+projectTeamMember);
 
-        // TODO list
-        // 1. 입력값 검증 :
+        // 이미 등록된 데이터인지 검사
+        Optional<ProjectTeamMember> dupCheckMember =
+                repo.findByPidAndMid(projectTeamMember.getPid(), projectTeamMember.getMid());
+
+        // 이미 등록된 데이터를 등록하려고 할 때 409 Conflict 상태 코드 반환
+        if(dupCheckMember.isPresent()) {
+            Map<String, Object> res =new HashMap<>();
+            res.put("data", null);
+            res.put("message", "User already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(res);
+        }
 
         // 추가 정보 등록
         projectTeamMember.setCreatedTime(new Date().getTime());

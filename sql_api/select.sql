@@ -1,14 +1,10 @@
 select * from member;
 select * from project;
 select * from project_team_member;
-select * from task;
+select * from task ;
+where mid=1;
 
-select * from project_team_member where pid in (
-select pid from project where creator_user in (
-   select mid from member where username = "user1"
-   ));
-   
-select * from project_team_member where mid = 6;
+select * from project_team_member where pid=8;
 
 -- update member set secret = '$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.' where mid = 16;
 
@@ -84,3 +80,11 @@ AND t2.mid = 6;
 
 SELECT   t2.title AS title,  t2.description AS description,  t2.start_date,  t2.end_date,  t2.creator_user,  t2.status,  t1.pid  
 FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = 6;
+SELECT   t2.title AS title,  t2.description AS description,  t2.start_date As startDate,  t2.end_date AS endDate,  t2.creator_user AS creatorUser,  
+t2.status,  t1.pid,  t1.mid  
+FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = 6;
+
+
+truncate project;
+
+SELECT   t2.title AS title,  t2.description AS description,  t2.start_date As startDate,  t2.end_date AS endDate,  t2.creator_user AS creatorUser,  t2.status,  t2.image,  t1.pid,  t1.mid  FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = ?

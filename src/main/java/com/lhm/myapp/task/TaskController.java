@@ -83,10 +83,13 @@ public class TaskController {
     public List<TaskMemberProjection> getTaskListJoinMember(@RequestParam long pid,
                                   @RequestAttribute AuthProfile authProfile) {
 
+        System.out.println("\n<<TaskController getTaskListJoinMember>>");
         System.out.println("입력값 확인 : "+pid);
 
         // Project id로 Tasks 정보 조회
         List<TaskMemberProjection> taskList = repo.findTaskMemberByPid(pid);
+
+        System.out.println("결과 : "+taskList);
 
         return taskList;
     }
