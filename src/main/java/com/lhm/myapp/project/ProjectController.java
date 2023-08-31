@@ -5,10 +5,7 @@ import com.lhm.myapp.auth.AuthProfile;
 import com.lhm.myapp.auth.entity.Member;
 import com.lhm.myapp.auth.entity.MemberProjection;
 import com.lhm.myapp.auth.entity.MemberRepository;
-import com.lhm.myapp.task.Task;
 import com.lhm.myapp.team.ProjectTeamMemberRepository;
-import lombok.extern.log4j.Log4j2;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@Log4j2
 @RequestMapping("/project")
 public class ProjectController {
 
@@ -111,7 +107,7 @@ public class ProjectController {
     }
 
     // 프로젝트 전체 조회(리스트)
-    // GET /project/list
+    // GET /project/list-all
     @Auth
     @GetMapping(value = "/list-all")
     public List<Project> getProjectList(@RequestAttribute AuthProfile authProfile) {
@@ -123,8 +119,21 @@ public class ProjectController {
         return repo.findAll(sort);
     }
 
+    // 상태값에 따른 프로젝트 조회(리스트)
+    // GET /project/list-status?status=1
+    @Auth
+    @GetMapping(value = "/list-status")
+    public List<Project> getProjectListByStatus(@RequestParam String status,
+                                                @RequestAttribute AuthProfile authProfile) {
+
+        System.out.println("\n <<< ProjectController getProjectListByStatus >>> ");
+        System.out.println("입력값 확인 : "+status);
+
+        return repo.findByStatusOrderByCreatedTimeDesc(status);
+    }
+
     // 내가 참여한 프로젝트 전체 조회(리스트)
-    // GET /project/list
+    // GET /project/list-myproject
     @Auth
     @GetMapping(value = "/list-myproject")
     public List<ProjectProjection> getMyProjectList(@RequestAttribute AuthProfile authProfile) {

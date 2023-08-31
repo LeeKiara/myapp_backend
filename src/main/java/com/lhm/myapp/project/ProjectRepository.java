@@ -39,10 +39,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                     " t1.mid " +
                     " FROM project_team_member t1 " +
                     " LEFT JOIN project t2 ON t1.pid = t2.pid " +
-                    "  WHERE t1.mid = :mid", nativeQuery = true)
+                    "  WHERE t1.mid = :mid" +
+                    "  ORDER BY t2.created_time desc", nativeQuery = true)
     List<ProjectProjection> findProjectByMid(@Param("mid") long mid);
 
-
-
+    List<Project> findByStatusOrderByCreatedTimeDesc(String status);
 
 }

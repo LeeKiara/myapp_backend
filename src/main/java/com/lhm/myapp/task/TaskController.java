@@ -84,12 +84,13 @@ public class TaskController {
                                   @RequestAttribute AuthProfile authProfile) {
 
         System.out.println("\n<<TaskController getTaskListJoinMember>>");
-        System.out.println("입력값 확인 : "+pid);
+        System.out.println("입력값 확인 pid => "+pid);
 
         // Project id로 Tasks 정보 조회
         List<TaskMemberProjection> taskList = repo.findTaskMemberByPid(pid);
 
         System.out.println("결과 : "+taskList);
+        System.out.println("\n");
 
         return taskList;
     }

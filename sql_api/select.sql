@@ -2,7 +2,20 @@ select * from member;
 select * from project;
 select * from project_team_member;
 select * from task ;
-where mid=1;
+-- where mid=1;
+
+SELECT date_format(Now(), '%Y-%m-%d');
+
+SELECT *,
+DATE_FORMAT(FROM_UNIXTIME(created_time / 1000), '%Y-%m-%d %H:%i:%s') AS formatted_date
+FROM  project where creator_user = 1
+order by created_time desc;
+
+select *, date_format(created_time, '%Y-%m-%d') from project where creator_user = 1;
+
+select * from member where username = "it1";
+update member set mname = "UX현빈" where username = "hbin1028";
+
 
 select * from project_team_member where pid=8;
 
@@ -87,4 +100,32 @@ FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.
 
 truncate project;
 
-SELECT   t2.title AS title,  t2.description AS description,  t2.start_date As startDate,  t2.end_date AS endDate,  t2.creator_user AS creatorUser,  t2.status,  t2.image,  t1.pid,  t1.mid  FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = ?
+SELECT   t2.title AS title,  t2.description AS description,  t2.start_date As startDate,  
+t2.end_date AS endDate,  t2.creator_user AS creatorUser,  t2.status,  t2.image,  t1.pid,  t1.mid  
+FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = 
+(select mid from member where username = 'kiara');
+
+select * from project where pid = 10;
+select * from project_team_member where pid = 10;
+delete from project_team_member where pid = 10;
+
+SELECT   t2.title AS title,  t2.description AS description,  t2.start_date As startDate,  
+t2.end_date AS endDate,  t2.creator_user AS creatorUser,  t2.status,  t2.image,  t1.pid,  t1.mid  
+FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   
+WHERE t1.mid = 2  ORDER BY t2.created_time desc;
+
+
+select p1_0.pid,p1_0.created_time,p1_0.creator_user,p1_0.description,p1_0.end_date,p1_0.image,p1_0.start_date,p1_0.status,p1_0.title from project p1_0 where p1_0.creator_user=2
+ order by p1_0.created_time desc;
+ 
+SELECT  t1.tid AS tid,  t1.title AS title,  t1.description AS description,  t1.start_date AS startDate,  t1.end_date AS endDate,  t1.mid AS mid,  t1.status AS status,  
+t2.username AS username,  t2.mname AS mname  FROM Task t1  
+LEFT JOIN Member t2 ON t1.mid = t2.mid  WHERE t1.project_pid = 2;
+
+select * from task;
+select * from task where project_pid = 2;
+
+
+SELECT   t2.title AS title,  t2.description AS description,  t2.start_date As startDate,  t2.end_date AS endDate,  t2.creator_user AS creatorUser,  t2.status,  t2.image,  t1.pid,  t1.mid  FROM project_team_member t1  LEFT JOIN project t2 ON t1.pid = t2.pid   WHERE t1.mid = ?  ORDER BY t2.created_time desc
+
+select p1_0.pid,p1_0.created_time,p1_0.creator_user,p1_0.description,p1_0.end_date,p1_0.image,p1_0.start_date,p1_0.status,p1_0.title from project p1_0 where p1_0.creator_user=? order by p1_0.created_time desc limit 0,6
