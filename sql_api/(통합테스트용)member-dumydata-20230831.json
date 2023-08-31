@@ -1,0 +1,72 @@
+[
+	{
+		"mid" : 1,
+		"email" : "user1@gmail.com",
+		"mname" : "김매니저",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "pm-user1"
+	},
+	{
+		"mid" : 2,
+		"email" : "user2@gmail.com",
+		"mname" : "홍매니저",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "pm-user2"
+	},
+	{
+		"mid" : 3,
+		"email" : "user3@gmail.com",
+		"mname" : "강매니저",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "pm-user3"
+	},
+	{
+		"mid" : 4,
+		"email" : "user4@gmail.com",
+		"mname" : "현매니저",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "pm-user4"
+	},
+	{
+		"mid" : 5,
+		"email" : "user5@gmail.com",
+		"mname" : "개발팀1",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "user5"
+	},
+	{
+		"mid" : 6,
+		"email" : "kiara@gmail.com",
+		"mname" : "기획팀1",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "kiara"
+	},
+	{
+		"mid" : 16,
+		"email" : "hbin1028@gmail.com",
+		"mname" : "UX현빈",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "hbin1028"
+	},
+	{
+		"mid" : 17,
+		"email" : "it1@gmail.com",
+		"mname" : "개발자1",
+		"secret" : "$2a$12$CP.lvkxMK0AE/wlpRXsJb.PadHH2XUfUJdc.JvKFz.DL5LxOEEbw.",
+		"username" : "it1"
+	},
+	{
+		"mid" : 18,
+		"email" : "it2@gmail.com",
+		"mname" : "개발자2",
+		"secret" : "$2a$12$PXD3I0W.87sYwBgCXqBr0uOO/66szcNtlXkYfFrnWqSL2hhXfhlMG",
+		"username" : "it2"
+	},
+	{
+		"mid" : 19,
+		"email" : "sales@gmail.com",
+		"mname" : "영업팀1",
+		"secret" : "$2a$12$vu3sML9AbP49h8UB3rwmpeKheQ3othUll/he2uUecSLkhi0ENsAVu",
+		"username" : "sales"
+	}
+]
