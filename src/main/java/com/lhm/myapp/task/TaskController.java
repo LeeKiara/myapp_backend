@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-//@RequestMapping("/project/tasks")
+@RequestMapping("/api")
 public class TaskController {
 
     @Autowired
