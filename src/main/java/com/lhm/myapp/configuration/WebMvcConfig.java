@@ -22,7 +22,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                     "http://localhost:5500",
-                    "http://127.0.0.1:5500")
+                    "http://127.0.0.1:5500",
+                        "https://dmel5zuvyohd2.cloudfront.net",
+                        "https://dmel5zuvyohd2.cloudfront.net:8080",
+                        "http://ec2-52-78-61-30.ap-northeast-2.compute.amazonaws.com",
+                        "http://ec2-52-78-61-30.ap-northeast-2.compute.amazonaws.com:8080")
                 .allowedMethods("*");
 
         WebMvcConfigurer.super.addCorsMappings(registry);

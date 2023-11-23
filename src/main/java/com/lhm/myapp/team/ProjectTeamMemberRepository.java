@@ -38,5 +38,5 @@ public interface ProjectTeamMemberRepository extends JpaRepository<ProjectTeamMe
     Page<ProjectTeamMember> findByPidOrderByCreatedTimeDesc(long pid,
                                                                  Pageable pageable);
 
-    long deleteByPidAndMid(long pid, long mid);
+//    long deleteByPidAndMid(long pid, long mid);
 }

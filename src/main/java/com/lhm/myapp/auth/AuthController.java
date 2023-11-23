@@ -9,7 +9,10 @@ import com.lhm.myapp.auth.util.JwtUtil;
 import com.lhm.myapp.project.Project;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -33,6 +36,15 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwt;
+
+    @Value("${app.cookie.domain}")
+    private String cookieDomain;
+
+    @Value("${app.login.url}")
+    private String loginUrl;
+
+    @Value("${app.home.url}")
+    private String homeUrl;
 
     // 회원가입
     @PostMapping(value = "/signup")
@@ -107,7 +119,7 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .location(ServletUriComponentsBuilder
-                            .fromHttpUrl("http://localhost:5500/member/login.html?return-status=400")
+                            .fromHttpUrl(loginUrl+"?return-status=400")
                             .build().toUri())
                     .build();
         }
@@ -123,7 +135,7 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .location(ServletUriComponentsBuilder
-                            .fromHttpUrl("http://localhost:5500/member/login.html?return-status=401")
+                            .fromHttpUrl(loginUrl+"?return-status=401")
                             .build().toUri())
                     .build();
         }
@@ -143,7 +155,7 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .location(ServletUriComponentsBuilder
-                            .fromHttpUrl("http://localhost:5500/member/login.html?return-status=401")
+                            .fromHttpUrl(loginUrl+"?return-status=401")
                             .build().toUri())
                     .build();
         }
@@ -167,17 +179,40 @@ public class AuthController {
         Cookie cookie = new Cookie("token", token);
         cookie.setPath("/");
         cookie.setMaxAge((int) (jwt.TOKEN_TIMEOUT / 1000L)); // 만료시간 (7일)
-        cookie.setDomain("localhost"); // 쿠키를 사용할 수 있는 도메인
+        cookie.setDomain(cookieDomain); // 쿠키를 사용할 수 있는 도메인
 
         // 6. Response Header에 쿠키 추가
         res.addCookie(cookie);
+
+        System.out.println("homeUrl : "+homeUrl);
 
         // 7. 로그인 후 페이지 이동
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .location(ServletUriComponentsBuilder
-                        .fromHttpUrl("http://localhost:5500")
+                        .fromHttpUrl(homeUrl)
                         .build().toUri())
                 .build();
     }
+
+    @PostMapping(value = "/test")
+    public void test(
+            @RequestParam String username,
+            @RequestParam String password) {
+
+        System.out.println("입력값 확인(username) : "+username);
+        System.out.println("입력값 확인(password) : "+password);
+
+    }
+
+    @GetMapping(value = "/test2")
+    public void test2(
+            @RequestParam String username,
+            @RequestParam String password) {
+
+        System.out.println("입력값 확인(username) : "+username);
+        System.out.println("입력값 확인(password) : "+password);
+
+    }
+
 }

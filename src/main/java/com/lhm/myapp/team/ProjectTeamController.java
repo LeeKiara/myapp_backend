@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/project/member")
+@RequestMapping("/api/project/member")
 public class ProjectTeamController {
 
     @Autowired

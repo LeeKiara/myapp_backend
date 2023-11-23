@@ -6,6 +6,9 @@ import com.lhm.myapp.auth.entity.Member;
 import com.lhm.myapp.auth.entity.MemberProjection;
 import com.lhm.myapp.auth.entity.MemberRepository;
 import com.lhm.myapp.team.ProjectTeamMemberRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Tag(name="프로젝트 관리 처리 API")
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/api/project")
 public class ProjectController {
 
     @Autowired
@@ -31,6 +35,7 @@ public class ProjectController {
 
     // 프로젝트id로 프로젝트 정보 가져오기
     // GET /project/1
+    @Operation(summary = "프로젝트 id로 프로젝트 정보 가져오기", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/{pid}")
     public ResponseEntity<Map<String, Object>> getProject(@PathVariable Long pid,
@@ -72,6 +77,7 @@ public class ProjectController {
        프로젝트 정보 등록(DB : insert)
        POST /project
      */
+    @Operation(summary = "프로젝트 정보 등록", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @PostMapping
     public ResponseEntity<Map<String, Object>> addProject(@RequestBody Project reqProject,
@@ -108,6 +114,7 @@ public class ProjectController {
 
     // 프로젝트 전체 조회(리스트)
     // GET /project/list-all
+    @Operation(summary = "프로젝트 전체 조회(리스트)", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/list-all")
     public List<Project> getProjectList(@RequestAttribute AuthProfile authProfile) {
@@ -121,6 +128,7 @@ public class ProjectController {
 
     // 상태값에 따른 프로젝트 조회(리스트)
     // GET /project/list-status?status=1
+    @Operation(summary = "상태값에 따른 프로젝트 조회(리스트)", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/list-status")
     public List<Project> getProjectListByStatus(@RequestParam String status,
@@ -134,6 +142,7 @@ public class ProjectController {
 
     // 내가 참여한 프로젝트 전체 조회(리스트)
     // GET /project/list-myproject
+    @Operation(summary = "내가 참여한 프로젝트 전체 조회(리스트)", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/list-myproject")
     public List<ProjectProjection> getMyProjectList(@RequestAttribute AuthProfile authProfile) {
@@ -146,8 +155,9 @@ public class ProjectController {
         return repo.findProjectByMid(mid);
     }
 
-    // 프로젝트 정보 조회 (페이지 단위로)
+    // 프로젝트 전체 조회(페이지 단위)
     // GET /project/paging?page=0&size=10
+    @Operation(summary = "프로젝트 전체 조회(페이지 단위)", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/paging")
     public Page<Project> getProjectPaging(@RequestParam int page, @RequestParam int size,
@@ -168,6 +178,7 @@ public class ProjectController {
 
     // 내가 생성한 프로젝트 조회 (key:creatorUser)
     // GET /project/paging/myproject
+    @Operation(summary = "내가 생성한 프로젝트 조회", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/paging/myproject")
     public Page<Project> getMyProject(@RequestParam int page, @RequestParam int size,
@@ -188,8 +199,9 @@ public class ProjectController {
 
     // 내가 참여한 프로젝트 조회
     // GET /project/join
-     @Auth
-     @GetMapping(value = "/join")
+    @Operation(summary = "내가 참여한 프로젝트 조회", security = { @SecurityRequirement(name = "bearer-key") })
+    @Auth
+    @GetMapping(value = "/join")
     public List<ProjectProjection> getJoinProject(@RequestAttribute AuthProfile authProfile) {
 
         System.out.println("\n<<< ProjectController getJoinProject call >>>");
@@ -203,6 +215,7 @@ public class ProjectController {
 
     // 프로젝트 상태값으로 프로젝트 정보 조회
     // GET /project/paging/searchByStatus?page=0&size=10
+    @Operation(summary = "프로젝트 상태값으로 프로젝트 정보 조회", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/paging/searchByStatus")
     public Page<Project> getProjectPagingSearchByStatus(@RequestParam int page, @RequestParam int size,
@@ -223,6 +236,7 @@ public class ProjectController {
     /*
        프로젝트 정보 수정(DB : update)
      */
+    @Operation(summary = "프로젝트 정보 수정", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @PutMapping(value = "/{pid}")
     public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long pid, @RequestBody  Project project,
@@ -277,6 +291,7 @@ public class ProjectController {
    /*
      프로젝트 정보 삭제(DB : delete)
    */
+    @Operation(summary = "프로젝트 정보 삭제", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @DeleteMapping(value = "/{pid}")
     public ResponseEntity<Map<String, Object>> removeProject(@PathVariable Long pid,
@@ -343,7 +358,7 @@ public class ProjectController {
         role-tmember : R
         role-task : R
      ------------------------------------------------------------------------------------------------------------*/
-    @Auth
+    @Operation(summary = "프로젝트/팀원/작업 권한 조회", security = { @SecurityRequirement(name = "bearer-key") })    @Auth
     @GetMapping(value = "/{pid}/role")
     public ResponseEntity<Map<String, Object>> getProjectRole(@PathVariable Long pid,
                                                           @RequestAttribute AuthProfile authProfile) {
@@ -391,10 +406,4 @@ public class ProjectController {
 
     }
 
-    @Auth
-    @GetMapping(value = "/userinfo")
-    public AuthProfile getProject(@RequestAttribute AuthProfile authProfile) {
-
-        return authProfile;
-    }
 }
