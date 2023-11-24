@@ -23,8 +23,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             " t1.status AS status, " +
             " t2.username AS username, " +
             " t2.mname AS mname " +
-            " FROM Task t1 " +
-            " LEFT JOIN Member t2 ON t1.mid = t2.mid " +
+            " FROM task t1 " +
+            " LEFT JOIN member t2 ON t1.mid = t2.mid " +
             " WHERE t1.project_pid = :pid", nativeQuery = true)
     List<TaskMemberProjection> findTaskMemberByPid(@Param("pid") long pid);
 

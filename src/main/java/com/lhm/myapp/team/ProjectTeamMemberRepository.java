@@ -22,15 +22,19 @@ public interface ProjectTeamMemberRepository extends JpaRepository<ProjectTeamMe
 //            " WHERE t2.pid = :pid", nativeQuery = true)
 //    List<Member> findTeamMemberByPid(long pid);
 
-    @Query("SELECT m FROM Member m " +
-            " LEFT JOIN ProjectTeamMember ptm ON m.mid = ptm.mid " +
+//    @Query("SELECT m FROM Member m " +
+//            " LEFT JOIN ProjectTeamMember ptm ON m.mid = ptm.mid " +
+//            " WHERE ptm.pid = :pid " +
+//            "   AND ptm.mid = :mid ")
+    @Query(value ="SELECT m.* FROM member m " +
+            " LEFT JOIN project_team_member ptm ON m.mid = ptm.mid " +
             " WHERE ptm.pid = :pid " +
-            "   AND ptm.mid = :mid ")
+            "   AND ptm.mid = :mid ", nativeQuery = true)
     MemberProjection findTeamMemberByPidAndByMid(@Param("pid") long pid, @Param("mid") long mid);
 
-    @Query("SELECT m FROM Member m " +
-            "LEFT JOIN ProjectTeamMember ptm ON m.mid = ptm.mid " +
-            "WHERE ptm.pid = :pid")
+    @Query(value ="SELECT m.* FROM member m " +
+            "LEFT JOIN project_team_member ptm ON m.mid = ptm.mid " +
+            "WHERE ptm.pid = :pid", nativeQuery = true)
     List<MemberProjection> findTeamMemberByPid(@Param("pid") long pid);
 
     Optional<ProjectTeamMember> findByPidAndMid(long pid, long mid);
